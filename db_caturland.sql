@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2021 at 10:42 AM
+-- Generation Time: Jun 11, 2021 at 02:12 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -45,24 +45,25 @@ CREATE TABLE `tb_property` (
   `fasilitas` varchar(255) NOT NULL,
   `status_property` varchar(255) NOT NULL,
   `id_pemilik` varchar(255) NOT NULL,
-  `id_agent` int(11) NOT NULL
+  `id_agent` int(11) NOT NULL,
+  `tanggal` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tb_property`
 --
 
-INSERT INTO `tb_property` (`id`, `judul`, `alamat`, `daerah`, `luas_bangunan`, `luas_tanah`, `jenis_property`, `harga`, `kamar_tidur`, `kamar_mandi`, `lantai`, `image_sertifikat`, `image`, `fasilitas`, `status_property`, `id_pemilik`, `id_agent`) VALUES
-(2, 'Rumah Bayu', 'Dalung', 'Badung', '120 x 120', '100 x 100', 'Rumah', 300, 1, 2, 1, '1623341721.jpg', '1623341721.jpg', 'Kolam', 'Dijual', '10', 12),
-(4, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 122, 4, 3, 1, '1623355246.jpg', '1623355246.jpg', 'Kolam', 'Dijual', '10', 12),
-(6, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Rumah', 1212, 3, 3, 1, '1623355319.jpg', '1623355319.jpg', 'Kolam', 'Disewakan', '10', 12),
-(7, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 300, 2, 1, 2, '1623355347.jpg', '1623355347.jpg', 'Kolam', 'Disewakan', '10', 12),
-(8, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Villa', 320, 4, 1, 1, '1623355381.jpg', '1623355381.jpg', 'Kolam', 'Disewakan', '10', 12),
-(9, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 122, 3, 2, 11, '1623355424.jpg', '1623355424.jpg', 'Kolam', 'Dijual', '10', 12),
-(10, 'Rumah Bayu Ultimate', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 250, 4, 5, 111, '1623356246.jpg', '1623356246.jpg', 'Kolam', 'Dijual', '10', 12),
-(11, 'Rumah Bayu Ultimate', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 25000, 4, 5, 111, '1623356246.jpg', '1623356246.jpg', 'Kolam', 'Dijual', '10', 12),
-(12, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Rumah', 1210, 3, 3, 1, '1623355319.jpg', '1623355319.jpg', 'Kolam', 'Disewakan', '10', 12),
-(13, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Rumah', 1000, 3, 3, 1, '1623355319.jpg', '1623355319.jpg', 'Kolam', 'Disewakan', '10', 12);
+INSERT INTO `tb_property` (`id`, `judul`, `alamat`, `daerah`, `luas_bangunan`, `luas_tanah`, `jenis_property`, `harga`, `kamar_tidur`, `kamar_mandi`, `lantai`, `image_sertifikat`, `image`, `fasilitas`, `status_property`, `id_pemilik`, `id_agent`, `tanggal`) VALUES
+(2, 'Rumah Bayu', 'Dalung', 'Badung', '120 x 120', '100 x 100', 'Rumah', 300, 1, 2, 1, '1623341721.jpg', '1623341721.jpg', 'Kolam', 'Sudah Terjual', '10', 12, '2021-06-01 01:08:05'),
+(4, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 122, 4, 3, 1, '1623355246.jpg', '1623355246.jpg', 'Kolam', 'Sudah Terjual', '10', 12, '2021-06-11 19:44:34'),
+(6, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Rumah', 1212, 3, 3, 1, '1623355319.jpg', '1623355319.jpg', 'Kolam', 'Sudah Terjual', '10', 12, '2021-06-11 19:44:34'),
+(7, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 300, 2, 1, 2, '1623355347.jpg', '1623355347.jpg', 'Kolam', 'Disewakan', '10', 12, '2021-06-11 19:44:34'),
+(8, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Villa', 320, 4, 1, 1, '1623355381.jpg', '1623355381.jpg', 'Kolam', 'Disewakan', '10', 12, '2021-06-11 19:44:34'),
+(9, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 122, 3, 2, 11, '1623355424.jpg', '1623355424.jpg', 'Kolam', 'Dijual', '10', 12, '2021-06-11 19:44:34'),
+(10, 'Rumah Bayu Ultimate', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 250, 4, 5, 111, '1623356246.jpg', '1623356246.jpg', 'Kolam', 'Dijual', '10', 12, '2021-06-11 19:44:34'),
+(11, 'Rumah Bayu Ultimate', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Apartemen', 25000, 4, 5, 111, '1623356246.jpg', '1623356246.jpg', 'Kolam', 'Dijual', '10', 12, '2021-06-11 19:44:34'),
+(12, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Rumah', 1210, 3, 3, 1, '1623355319.jpg', '1623355319.jpg', 'Kolam', 'Disewakan', '10', 12, '2021-06-11 19:44:34'),
+(13, 'Rumah Bayu', 'Dalung', 'Buleleng', '120 x 120', '100 x 100', 'Rumah', 1000, 3, 3, 1, '1623355319.jpg', '1623355319.jpg', 'Kolam', 'Disewakan', '10', 12, '2021-06-11 19:44:34');
 
 -- --------------------------------------------------------
 

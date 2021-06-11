@@ -50,7 +50,7 @@ if (isset($_POST['login']))
 	<body>
 		<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white d-flex">
-		<a class="navbar-brand justify-content-start me-auto ms-4 col-3" href="index.html">
+		<a class="navbar-brand justify-content-start me-auto ms-4 col-3" href="index.php">
 			<img src="assets/img/logo.png" style="width: 20%;">
 		</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,12 +143,12 @@ if (isset($_POST['login']))
 		<div class="container">
 			<div class="row p-4">
 				<h3 class="p-2 ms-4"><b> Cari Rumah</b></h3>
-				<form>
+				<form method="post">
 					<div class="form-row d-flex">
 						<div class="input-group flex-fill p-2 ms-4">
-							<input type="text" class="form-control p-3" placeholder="Ketik atau pilih lokasi" aria-label="Recipient's username" aria-describedby="basic-addon2">
+							<input type="text" class="form-control p-3" placeholder="Ketik atau pilih lokasi" aria-label="Recipient's username" aria-describedby="basic-addon2" name="search" value="<?php if(isset($_POST['search'])){ echo $_POST['search'];} ?>">
 							<div class="input-group-append">
-								<button class="btn btn-primary p-3" type="button">Cari!</button>
+								<button class="btn btn-primary p-3" type="submit" >Cari!</button>
 							</div>
 						</div>	
 					</div>
@@ -160,11 +160,54 @@ if (isset($_POST['login']))
 		<div class="container">
 			<div class="row p-3">
 				<div class="p-2">
-					<p style="color: #108ee9;">Buleleng</p>
-					<h1><b>Daerah Terbaru</b></h1>
+					<p style="color: #108ee9;"><?php echo $idlokasi= $_GET['id']; ?></p>
+					<h1><b>Property Di Daerah Terbaru</b></h1>
 				</div>
 				<div class="col-lg-6 pt-2">
 					<?php
+					if (isset($_POST['search'])) {
+						$filter = $_POST['search'];
+						$perintah = "SELECT * FROM tb_property 
+									WHERE daerah = '$idlokasi' AND CONCAT(harga,status_property,judul,jenis_property,luas_bangunan) 
+									LIKE '%$filter%'";
+                    	$query = mysqli_query($conn, $perintah);
+                    	if (mysqli_num_rows($query) > 0) {
+                    		foreach ($query as $dataproperty) {
+                    			?>
+								<div class="card mt-2">
+								  	<div class="row g-0 rounded-3">
+								    	<div class="col-md-4">
+								     	 	<img src="public/img/<?php echo $dataproperty['image']; ?>" style="width: 100%">
+								    	</div>
+								    	<div class="col-md-8">
+								    		<a href="detail-property.php?id=<?php echo $dataproperty['id']; ?>" class="nav-link item-list">
+									      		<div class="card-body p-0 ps-2 pt-2 p-1">
+									        		<h3 class="card-title"><b>Rp. <?php echo $dataproperty['harga']; ?></b></h3>
+									        		<span class="btn btn-success rounded-pill"><?php echo $dataproperty['status_property']; ?></span>
+									        		<h5 class="card-text"><b><?php echo $dataproperty['judul']; ?></b></h5>
+									        		<p class="card-text"><span class="fa fa-map"></span> <?php echo $dataproperty['daerah']; ?></p>
+									        		<h5 class="card-text"><?php echo $dataproperty['jenis_property']; ?></h5>
+									        		<h5 class="card-text">Luas Bangunan : <?php echo $dataproperty['luas_bangunan']; ?>m<sup>3</sup></h5>
+									        		<span>Luas Tanah : <?php echo $dataproperty['luas_tanah']; ?>m<sup>3</sup></span>
+									        		<h5 class="card-text"></h5>
+									        		<h5 class="card-text">
+									        			<div class=" position-absolute bottom-0 end-0 pb-3 pe-2">
+										        			<span class="fa fa-bed text-info p-1"></span><?php echo $dataproperty['kamar_tidur']; ?>
+										        			<span class="fa fa-bath text-info p-1"></span><?php echo $dataproperty['kamar_mandi']; ?>
+									        			</div>
+									        		</h5>
+									        		</p>
+									      		</div>
+								      		</a>
+								    	</div>
+								  	</div>
+								</div>
+								<?php
+                    		}
+                    	}else{
+                    		echo 'Data Tidak Temukan!';
+                    }
+                }else{
 						$idlokasi = $_GET['id'];
 						if (isset($_POST['filter'])) 
 						{
@@ -216,17 +259,17 @@ if (isset($_POST['login']))
 					    		<a href="detail-property.php?id=<?php echo $dataproperty['id']; ?>" class="nav-link item-list">
 						      		<div class="card-body p-0 ps-2 pt-2 p-1">
 						        		<h3 class="card-title"><b>Rp. <?php echo $dataproperty['harga']; ?></b></h3>
+						        		<span class="btn btn-success rounded-pill"><?php echo $dataproperty['status_property']; ?></span>
 						        		<h5 class="card-text"><b><?php echo $dataproperty['judul']; ?></b></h5>
 						        		<p class="card-text"><span class="fa fa-map"></span> <?php echo $dataproperty['daerah']; ?></p>
 						        		<h5 class="card-text"><?php echo $dataproperty['jenis_property']; ?></h5>
 						        		<h5 class="card-text">Luas Bangunan : <?php echo $dataproperty['luas_bangunan']; ?>m<sup>3</sup></h5>
+						        		<span>Luas Tanah : <?php echo $dataproperty['luas_tanah']; ?>m<sup>3</sup></span>
 						        		<h5 class="card-text"></h5>
 						        		<h5 class="card-text">
-						        			<span>Luas Tanah : <?php echo $dataproperty['luas_tanah']; ?>m<sup>3</sup></span>
 						        			<div class=" position-absolute bottom-0 end-0 pb-3 pe-2">
 							        			<span class="fa fa-bed text-info p-1"></span><?php echo $dataproperty['kamar_tidur']; ?>
 							        			<span class="fa fa-bath text-info p-1"></span><?php echo $dataproperty['kamar_mandi']; ?>
-							        			<span class="fa fa-arrows-alt text-info p-1"></span>500
 						        			</div>
 						        		</h5>
 						        		</p>
@@ -236,8 +279,10 @@ if (isset($_POST['login']))
 					  	</div>
 					</div>
 					<?php
-						}
-					?>
+				}
+
+            }
+		?>
 				</div>
 				<div class="col-lg-6 pt-2">
 					<form method="post">

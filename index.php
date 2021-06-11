@@ -182,6 +182,11 @@ else if (isset($_POST['input']))
 						else if ($level == '2')
 						{
 							echo '
+								<li class="nav-item m-4">
+							    	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalLaporan">
+									  	Cetak Laporan 
+									</button>
+							    </li>
 				                <li class="nav-item m-4">
 							    	<button type="button" class="btn">
 									  	Agent '.$namauser.' 
@@ -630,6 +635,34 @@ else if (isset($_POST['input']))
 		        <hr>
 		        <a href="#" class="btn btn-primary btn-lg rounded-pill m-1"><span class="fa fa-facebook"></span> Login With Facebook</a>
 		        <a href="#" class="btn btn-danger btn-lg rounded-pill m-1"><span class="fa fa-google"></span> Login With Google</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<!-- Modal Laporan-->
+		<div class="modal fade" id="ModalLaporan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body text-center">
+					<img src="assets/img/logo.png" style="width: 40%;" class="">
+		        <form method="post" action="laporan.php" target="_blank">
+		        	<h1>Tahun Laporan</h1>
+					<div class="form-group p-2">
+					    <select class="form-select" aria-label="Default select example" name="tahun">
+				        	<option value="2019">2019</option>
+				        	<option value="2020">2020</option>
+				        	<option value="2021">2021</option>
+				      	</select>
+					</div>
+					<div class="form-group p-2">
+						<input type="text" name="id" value="<?php echo $_SESSION['login']; ?>" hidden>
+					</div>
+					<button type="submit" class="btn btn-primary btn-lg  m-3 rounded-pill">Cari</button>
+				</form>
 		      </div>
 		    </div>
 		  </div>
