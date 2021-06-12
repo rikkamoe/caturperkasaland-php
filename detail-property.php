@@ -181,17 +181,26 @@ if (isset($_POST['login']))
 							}
 							else
 							{
+								$id = $_GET['id'];
+								$agentsql = "
+									SELECT * FROM tb_property
+									INNER JOIN tb_user
+									ON tb_property.id_agent = tb_user.id
+									WHERE tb_property.id = '$id'";
+								$agent = mysqli_query($conn, $agentsql);
+								$dataagent = mysqli_fetch_array($agent);
 								echo '
 									<div class="col-lg-4 p-4">
 										<div class="card">
 											<h4 class="card-title text-center pt-2">Tanya Tentang Property Ini</h4>
 											<img src="assets/img/agen/agen.png" class="mx-auto pt-4 pb-4" style="width: 15%;">
-											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-phone blue"></span> 08123563674</a>
+											<h5 class="card-title text-center pt-2">Agent '.$dataagent['nama'].'</h5>
+											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-phone blue"></span> '.$dataagent['no_tlp'].'</a>
 											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-whatsapp green"></span> WhatsApp Link</a>
 											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-google orange"></span> @arielardnt@gmail.com</a>
-											<button class="btn btn-success col-10 mx-auto p-3 m-2">
-												<span class="fa fa-envelope"></span> Send Enquiry
-											</button>
+											<a href="agen-detail.php?id='.$dataagent['id_agent'].'" class="btn btn-success col-10 mx-auto p-3 m-2">
+												<span class="fa fa-envelope"></span> Detail Agent
+											</a>
 										</div>
 									</div>
 								';
