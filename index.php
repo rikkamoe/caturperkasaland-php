@@ -81,7 +81,7 @@ else if (isset($_POST['input']))
 							INSERT INTO tb_property
 							(judul, alamat, daerah, luas_bangunan, luas_tanah, jenis_property, harga, kamar_tidur, kamar_mandi, lantai, image_sertifikat, image, fasilitas, status_property, id_pemilik, id_agent)
 							VALUES
-							('$judul', '$alamat', '$daerah', '$luas_bangunan', '$luas_tanah', '$tipe', '$harga', '$kamar_tidur', '$kamar_mandi', '$lantai', '$randomname2', '$randomname', '$fasilitas', '$status', '$nama', '$agent')";
+							('$judul', '$alamat', '$daerah', '$luas_bangunan', '$luas_tanah', '$tipe', '$harga', '$kamar_tidur', '$kamar_mandi', '$lantai', '$randomname2', '$randomname', '$fasilitas', '$status - Admin', '$nama', '$agent')";
 						$property = mysqli_query($conn, $inputsql);
 						if ($property) 
 						{
@@ -297,16 +297,80 @@ else if (isset($_POST['input']))
 
 			if ($level == '0') 
 			{
-				echo '
+				$html = '
 					<div class="container-fluid pt-4 pb-4">
 						<div class="container">
 							<div class="row p-2">
 								<div class="p-2 text-center">
-									<h1><b>Informasi Admin</b></h1>
+									<h1><b>Informasi Agent '.$namauser.'</b></h1>
 								</div>
+							</div>
+							<div class="row mt-3">
+								<table id="example2" class="table table-striped table-bordered" style="width:100%">
+							        <thead>
+							            <tr>
+							                <th>Judul Property</th>
+							                <th>Daerah</th>
+							                <th>Jenis Property</th>
+							                <th>Nama Pemilik</th>
+							                <th>Harga</th>
+							                <th>Status</th>
+							                <th>Aksi</th>
+							            </tr>
+							        </thead>
+							        <tbody>';
+
+							        $propertyagentsql = "
+							        	SELECT *, property.id AS id_property 
+							        	FROM tb_property AS property
+							        	INNER JOIN tb_user AS user 
+							        	ON property.id_pemilik = user.id
+							        	WHERE status_property = 'Dijual - Admin' OR status_property = 'Disewakan - Admin'";
+							        $property = mysqli_query($conn, $propertyagentsql);
+							        while ($dataproperty = mysqli_fetch_array($property)) 
+							        {
+							        	$status = $dataproperty['status_property'];
+							        	if ($status == 'Dijual - Admin') 
+							        	{
+							        		$status = 'Dijual';
+							        	}
+							        	else if ($status == 'Disewakan - Admin') 
+							        	{
+							        		$status = 'Disewakan';
+							        	}
+							        $html .='
+							            <tr>
+							                <td>'.$dataproperty['judul'].'</td>
+							                <td>'.$dataproperty['daerah'].'</td>
+							                <td>'.$dataproperty['jenis_property'].'</td>
+							                <td>'.$dataproperty['nama'].'</td>
+							                <td>Rp'.$dataproperty['harga'].'</td>
+							                <td>'.$status.'</td>
+							                <td>
+							                	<a class="btn btn-success" href="detail-property.php?id='.$dataproperty['id_property'].'"><i class="fa fa-eye"></i></a>
+							                	<a class="btn btn-info" href="validate-admin.php?id='.$dataproperty['id_property'].'"> <i class="fa fa-check"></i></a>
+							                	<a class="btn btn-danger" onClick="return confirm(\'Apakah anda ingin menghapus permintaan ini?\')" href="delete-admin.php?id='.$dataproperty['id_property'].'"> <i class="fa fa-times"></i></a>
+							                </td>
+							            </tr>';
+							        }
+							        $html .='
+							        </tbody>
+							        <tfoot>
+							            <tr>
+							                <th>Judul Property</th>
+							                <th>Daerah</th>
+							                <th>Jenis Property</th>
+							                <th>Nama Pemilik</th>
+							                <th>Harga</th>
+							                <th>Status</th>
+							                <th>Aksi</th>
+							            </tr>
+							        </tfoot>
+							    </table>
 							</div>
 						</div>
 					</div>';
+				echo $html;
 			}
 			else if ($level == '1')
 			{
@@ -813,6 +877,10 @@ else if (isset($_POST['input']))
 		$(document).ready(function() 
 		{
     		$('#example').DataTable();
+		});
+		$(document).ready(function() 
+		{
+    		$('#example2').DataTable();
 		});
 	</script>
 	</body>
