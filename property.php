@@ -123,16 +123,6 @@ if (isset($_POST['login']))
 	            else
 	            {
 	                echo '
-	                	<li class="nav-item m-4">
-					    	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalLogin">
-							  	Login
-							</button>
-					    </li>
-					    <li class="nav-item m-4">
-							<a class="btn btn-secondary" id="dropdownMenuButton1" aria-expanded="false" href="register.php">
-								Register
-							</a>
-					    </li>
 	                ';
 	            }
 	            ?>      
@@ -168,7 +158,7 @@ if (isset($_POST['login']))
 					if (isset($_POST['search'])) {
 						$filter = $_POST['search'];
 						$perintah = "SELECT * FROM tb_property 
-									WHERE daerah = '$idlokasi' AND CONCAT(harga,status_property,judul,jenis_property,luas_bangunan) 
+									WHERE daerah = '$idlokasi' AND status_property > 2 AND CONCAT(harga,status_property,judul,jenis_property,luas_bangunan) 
 									LIKE '%$filter%'";
                     	$query = mysqli_query($conn, $perintah);
                     	if (mysqli_num_rows($query) > 0) {
@@ -207,7 +197,9 @@ if (isset($_POST['login']))
                     	}else{
                     		echo 'Data Tidak Temukan!';
                     }
-                }else{
+                }
+                else
+                {
 						$idlokasi = $_GET['id'];
 						if (isset($_POST['filter'])) 
 						{
@@ -235,7 +227,7 @@ if (isset($_POST['login']))
 								echo " <script>alert('Failed, Data Anda tidak lengkap'); </script> ";
 								$cekpropertysql = "
 									SELECT * FROM tb_property 
-									WHERE daerah = '$idlokasi' AND status_property = 'Dijual' OR status_property = 'Disewakan' 
+									WHERE daerah = '$idlokasi' AND status_property = '3' OR status_property = '4' 
 									ORDER BY id DESC LIMIT 6";
 							}
 						}
@@ -243,12 +235,21 @@ if (isset($_POST['login']))
 						{
 							$cekpropertysql = "
 								SELECT * FROM tb_property 
-								WHERE daerah = '$idlokasi' AND status_property = 'Dijual'
+								WHERE daerah = '$idlokasi' AND status_property = '3'
 								ORDER BY id DESC LIMIT 6";
 						}
 						$property = mysqli_query($conn, $cekpropertysql);
 						while ($dataproperty = mysqli_fetch_array($property)) 
 						{
+							$status = $dataproperty['status_property'];
+				        	if ($status == '3') 
+				        	{
+				        		$status = 'Dijual';
+				        	}
+				        	else if ($status == '4') 
+				        	{
+				        		$status = 'Disewakan';
+				        	}
 					?>
 					<div class="card mt-2">
 					  	<div class="row g-0 rounded-3">
@@ -259,7 +260,7 @@ if (isset($_POST['login']))
 					    		<a href="detail-property.php?id=<?php echo $dataproperty['id']; ?>" class="nav-link item-list">
 						      		<div class="card-body p-0 ps-2 pt-2 p-1">
 						        		<h3 class="card-title"><b>Rp. <?php echo $dataproperty['harga']; ?></b></h3>
-						        		<span class="btn btn-success rounded-pill"><?php echo $dataproperty['status_property']; ?></span>
+						        		<span class="btn btn-success rounded-pill"><?php echo $status; ?></span>
 						        		<h5 class="card-text"><b><?php echo $dataproperty['judul']; ?></b></h5>
 						        		<p class="card-text"><span class="fa fa-map"></span> <?php echo $dataproperty['daerah']; ?></p>
 						        		<h5 class="card-text"><?php echo $dataproperty['jenis_property']; ?></h5>
@@ -290,8 +291,8 @@ if (isset($_POST['login']))
 							<label for="inputEmail">Status</label>
 			               	<select class="form-select" aria-label="Default select example" name="status">
 			               		<option selected>-- Select --</option>
-			                  	<option value="Disewakan">Disewakan</option>
-			                  	<option value="DiJual">Dijual</option>
+			               		<option value="3">Dijual</option>
+			                  	<option value="4">Disewakan</option>
 			                </select>
 							<label for="inputEmail">Tipe</label>
 			               	<select class="form-select" aria-label="Default select example" name="tipe">
@@ -330,6 +331,25 @@ if (isset($_POST['login']))
 						<a href="#" class="nav-link item">Press </a>
 						<a href="#" class="nav-link item">Rumah Subsidi</a>
 						<a href="#" class="nav-link item">Peta Lokasi Proyek</a>
+						<?php 
+						if (isset($_SESSION['login'])) 
+						{
+							echo '';
+						}
+						else
+						{
+							echo '
+								<div class="mt-3">
+							    	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalLogin">
+									  	Login
+									</button>
+									<a class="btn btn-secondary" id="dropdownMenuButton1" aria-expanded="false" href="register.php">
+										Register
+									</a>
+								</div>
+							';
+						}
+						?>
 					</div>
 					<div class="pt-4 pb-4 p-2 flex-fill">
 						<h5><b>CUSTOMER SERVICE</b></h5>

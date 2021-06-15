@@ -123,16 +123,7 @@ if (isset($_POST['login']))
 				else
 				{
 				    echo '
-				    	<li class="nav-item m-4">
-					    	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalLogin">
-							  	Login
-							</button>
-					    </li>
-					    <li class="nav-item m-4">
-							<a class="btn btn-secondary" id="dropdownMenuButton1" aria-expanded="false" href="register.php">
-								Register
-							</a>
-					    </li>
+				    	
 				    ';
 				}
 				?>
@@ -224,6 +215,25 @@ if (isset($_POST['login']))
 						<a href="#" class="nav-link item">Press </a>
 						<a href="#" class="nav-link item">Rumah Subsidi</a>
 						<a href="#" class="nav-link item">Peta Lokasi Proyek</a>
+						<?php 
+						if (isset($_SESSION['login'])) 
+						{
+							echo '';
+						}
+						else
+						{
+							echo '
+								<div class="mt-3">
+							    	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalLogin">
+									  	Login
+									</button>
+									<a class="btn btn-secondary" id="dropdownMenuButton1" aria-expanded="false" href="register.php">
+										Register
+									</a>
+								</div>
+							';
+						}
+						?>
 					</div>
 					<div class="pt-4 pb-4 p-2 flex-fill">
 						<h5><b>CUSTOMER SERVICE</b></h5>

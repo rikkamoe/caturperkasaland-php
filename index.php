@@ -219,16 +219,7 @@ else if (isset($_POST['input']))
 		            else
 		            {
 		                echo '
-		                	<li class="nav-item m-4">
-						    	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalLogin">
-								  	Login
-								</button>
-						    </li>
-						    <li class="nav-item m-4">
-								<a class="btn btn-secondary" id="dropdownMenuButton1" aria-expanded="false" href="register.php">
-									Register
-								</a>
-						    </li>
+		                	
 		                ';
 		            }
 		            ?>
@@ -305,51 +296,208 @@ else if (isset($_POST['input']))
 									<h1><b>Informasi Agent '.$namauser.'</b></h1>
 								</div>
 							</div>
+							<div class="d-flex align-items-start">
+								<div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+							    	<button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Data Validasi</button>
+							    	<button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Data Agent</button>
+							    	<button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Data Owner</button>
+							  	</div>
+								<div class="tab-content" style="width: 100%;" id="v-pills-tabContent">
+									<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+										<div class="row mt-3">
+											<table id="example" class="table table-striped table-bordered" style="width:100%">
+										        <thead>
+										            <tr>
+										                <th>Judul Property</th>
+										                <th>Daerah</th>
+										                <th>Jenis Property</th>
+										                <th>Nama Pemilik</th>
+										                <th>Harga</th>
+										                <th>Status</th>
+										                <th>Aksi</th>
+										            </tr>
+										        </thead>
+										        <tbody>';
+										        $propertyagentsql = "
+										        	SELECT *, property.id AS id_property 
+										        	FROM tb_property AS property
+										        	INNER JOIN tb_user AS user 
+										        	ON property.id_pemilik = user.id
+										        	WHERE status_property < 3";
+										        $property = mysqli_query($conn, $propertyagentsql);
+										        while ($dataproperty = mysqli_fetch_array($property)) 
+										        {
+										        	$status = $dataproperty['status_property'];
+										        	if ($status == '1') 
+										        	{
+										        		$status = 'Dijual';
+										        	}
+										        	else if ($status == '2') 
+										        	{
+										        		$status = 'Disewakan';
+										        	}
+										        $html .='
+										            <tr>
+										                <td>'.$dataproperty['judul'].'</td>
+										                <td>'.$dataproperty['daerah'].'</td>
+										                <td>'.$dataproperty['jenis_property'].'</td>
+										                <td>'.$dataproperty['nama'].'</td>
+										                <td>Rp'.$dataproperty['harga'].'</td>
+										                <td>'.$status.'</td>
+										                <td>
+										                	<a class="btn btn-success" href="detail-property.php?id='.$dataproperty['id_property'].'"><i class="fa fa-eye"></i></a>
+										                	<a class="btn btn-info" href="validate-admin.php?id='.$dataproperty['id_property'].'"> <i class="fa fa-check"></i></a>
+										                	<a class="btn btn-danger" onClick="return confirm(\'Apakah anda ingin menghapus permintaan ini?\')" href="delete-admin.php?id='.$dataproperty['id_property'].'"> <i class="fa fa-times"></i></a>
+										                </td>
+										            </tr>';
+										        }
+										        $html .='
+										        </tbody>
+										        <tfoot>
+										            <tr>
+										                <th>Judul Property</th>
+										                <th>Daerah</th>
+										                <th>Jenis Property</th>
+										                <th>Nama Pemilik</th>
+										                <th>Harga</th>
+										                <th>Status</th>
+										                <th>Aksi</th>
+										            </tr>
+										        </tfoot>
+										    </table>
+										</div>
+									</div>
+								    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+								    	<div class="row mt-3">
+											<table id="example2" class="table table-striped table-bordered" style="width:100%">
+										        <thead>
+										            <tr>
+										                <th>Nama Agent</th>
+										                <th>Jumlah Properti</th>
+										            </tr>
+										        </thead>
+										        <tbody>';
+										        $dataagentsql = "
+										        	SELECT *, COUNT(id_agent) AS jumlah_properti FROM tb_property
+										        	INNER JOIN tb_user 
+										        	ON tb_property.id_agent = tb_user.id
+										        	GROUP BY id_agent";
+										        $data = mysqli_query($conn, $dataagentsql);
+										        while ($dataagen = mysqli_fetch_array($data)) 
+										        {
+										        $html .='
+										            <tr>
+										                <td>'.$dataagen['nama'].'</td>
+										                <td>'.$dataagen['jumlah_properti'].'</td>
+										            </tr>';
+										        }
+										        $html .='
+										        </tbody>
+										        <tfoot>
+										            <tr>
+										                <th>Nama Agent</th>
+										                <th>Jumlah Properti</th>
+										            </tr>
+										        </tfoot>
+										    </table>
+										</div>
+								    </div>
+								    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+								    	<div class="row mt-3">
+											<table id="example3" class="table table-striped table-bordered" style="width:100%">
+										        <thead>
+										            <tr>
+										                <th>Nama Agent</th>
+										                <th>Jumlah Properti</th>
+										            </tr>
+										        </thead>
+										        <tbody>';
+										        $dataownersql = "
+										        	SELECT *, COUNT(id_pemilik) AS jumlah_properti FROM tb_property
+										        	INNER JOIN tb_user 
+										        	ON tb_property.id_pemilik = tb_user.id
+										        	GROUP BY id_pemilik";
+										        $data = mysqli_query($conn, $dataownersql);
+										        while ($datapemilik = mysqli_fetch_array($data)) 
+										        {
+										        $html .='
+										            <tr>
+										                <td>'.$datapemilik['nama'].'</td>
+										                <td>'.$datapemilik['jumlah_properti'].'</td>
+										            </tr>';
+										        }
+										        $html .='
+										        </tbody>
+										        <tfoot>
+										            <tr>
+										                <th>Nama Agent</th>
+										                <th>Jumlah Properti</th>
+										            </tr>
+										        </tfoot>
+										    </table>
+										</div>
+								    </div>
+								</div>
+							</div>
+						</div>
+					</div>';
+				echo $html;
+			}
+			else if ($level == '1')
+			{
+				$html = '
+					<div class="container-fluid pt-4 pb-4">
+						<div class="container">
+							<div class="row p-2">
+								<div class="p-2 text-center">
+									<h1><b>Informasi Owner '.$namauser.'</b></h1>
+								</div>
+							</div>
 							<div class="row mt-3">
-								<table id="example2" class="table table-striped table-bordered" style="width:100%">
+								<table id="example4" class="table table-striped table-bordered" style="width:100%">
 							        <thead>
 							            <tr>
 							                <th>Judul Property</th>
 							                <th>Daerah</th>
 							                <th>Jenis Property</th>
-							                <th>Nama Pemilik</th>
 							                <th>Harga</th>
 							                <th>Status</th>
 							                <th>Aksi</th>
 							            </tr>
 							        </thead>
 							        <tbody>';
-
-							        $propertyagentsql = "
+							        $propertyownersql = "
 							        	SELECT *, property.id AS id_property 
 							        	FROM tb_property AS property
 							        	INNER JOIN tb_user AS user 
 							        	ON property.id_pemilik = user.id
-							        	WHERE status_property = 'Dijual - Admin' OR status_property = 'Disewakan - Admin'";
-							        $property = mysqli_query($conn, $propertyagentsql);
-							        while ($dataproperty = mysqli_fetch_array($property)) 
+							        	WHERE id_pemilik = '$id'";
+							        $property = mysqli_query($conn, $propertyownersql);
+							        while ($datapropertyowner = mysqli_fetch_array($property)) 
 							        {
-							        	$status = $dataproperty['status_property'];
-							        	if ($status == 'Dijual - Admin') 
+							        	$status = $datapropertyowner['status_property'];
+
+							        	if ($status == '1' OR $status == '2') 
 							        	{
-							        		$status = 'Dijual';
+							        		$status = 'Masih Tahap Antrian Validasi Admin';	
 							        	}
-							        	else if ($status == 'Disewakan - Admin') 
+							        	else if ($status =='3' OR $status == '4')
 							        	{
-							        		$status = 'Disewakan';
+							        		$status = 'Masih Dikelola ole Agent';
+							        	}
+							        	else if ($status == '5')
+							        	{
+							        		$status = 'Sudah Laku Terjual';
 							        	}
 							        $html .='
 							            <tr>
-							                <td>'.$dataproperty['judul'].'</td>
-							                <td>'.$dataproperty['daerah'].'</td>
-							                <td>'.$dataproperty['jenis_property'].'</td>
-							                <td>'.$dataproperty['nama'].'</td>
-							                <td>Rp'.$dataproperty['harga'].'</td>
+							                <td>'.$datapropertyowner['judul'].'</td>
+							                <td>'.$datapropertyowner['daerah'].'</td>
+							                <td>'.$datapropertyowner['jenis_property'].'</td>
+							                <td>Rp'.$datapropertyowner['harga'].'</td>
 							                <td>'.$status.'</td>
 							                <td>
-							                	<a class="btn btn-success" href="detail-property.php?id='.$dataproperty['id_property'].'"><i class="fa fa-eye"></i></a>
-							                	<a class="btn btn-info" href="validate-admin.php?id='.$dataproperty['id_property'].'"> <i class="fa fa-check"></i></a>
-							                	<a class="btn btn-danger" onClick="return confirm(\'Apakah anda ingin menghapus permintaan ini?\')" href="delete-admin.php?id='.$dataproperty['id_property'].'"> <i class="fa fa-times"></i></a>
+							                	<a class="btn btn-success" href="detail-property.php?id='.$datapropertyowner['id_property'].'"><i class="fa fa-eye"></i></a>
 							                </td>
 							            </tr>';
 							        }
@@ -360,7 +508,6 @@ else if (isset($_POST['input']))
 							                <th>Judul Property</th>
 							                <th>Daerah</th>
 							                <th>Jenis Property</th>
-							                <th>Nama Pemilik</th>
 							                <th>Harga</th>
 							                <th>Status</th>
 							                <th>Aksi</th>
@@ -371,92 +518,6 @@ else if (isset($_POST['input']))
 						</div>
 					</div>';
 				echo $html;
-			}
-			else if ($level == '1')
-			{
-				echo '
-					<div class="container-fluid pt-4 pb-4">
-						<div class="container">
-							<div class="row p-2">
-								<div class="p-2 text-center">
-									<h1><b>Informasi Wilayah Anda</b></h1>
-								</div>
-								<div class="col-sm-6 p-3">
-									<a href="property.php?id=Buleleng" class="nav-link item">
-										<div class="card img-j d-flex justify-content-center">
-											<img src="assets/img/cont/select-1.png" style="max-width:100%; margin: auto;">
-											<h3 class="mx-auto text-center">Buleleng</h3>
-										</div>
-									</a>
-								</div>
-								<div class="col-sm-6 p-3">
-									<a href="property.php?id=Jembrana" class="nav-link item">
-										<div class="card img-j d-flex justify-content-center">
-											<img src="assets/img/cont/select-2.png" style="max-width:100%; margin: auto;">
-											<h3 class="mx-auto text-center">Jembrana</h3>
-										</div>
-									</a>
-								</div>
-								<div class="col-sm-6 p-3">
-									<a href="property.php?id=Badung" class="nav-link item">
-										<div class="card img-j d-flex justify-content-center">
-											<img src="assets/img/cont/select-3.png" style="max-width:100%; margin: auto;">
-											<h3 class="mx-auto text-center">Badung</h3>
-										</div>
-									</a>
-								</div>
-								<div class="col-sm-6 p-3">
-									<a href="property.php?id=Denpasar" class="nav-link item">
-										<div class="card img-j d-flex justify-content-center">
-											<img src="assets/img/cont/select-4.png" style="max-width:100%; margin: auto;">
-											<h3 class="mx-auto text-center">Denpasar</h3>
-										</div>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="container-fluid pt-4 pb-4">
-						<div class="container">
-							<div class="row p-2">
-								<div class="p-2 text-center">
-									<h2><b>Agen Pilihan</b></h2>
-								</div>
-								<div class="col-sm-6 bg-abu">
-									<a href="agen-detail.html" class="nav-link item">
-										<div class="card p-3">
-											<img src="assets/img/agen/agen.png" class="mx-auto" style="width: 15%;">
-											<p class="text-center pt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-												consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-												cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-												proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-											</p>
-											<hr class="col-6 mx-auto">
-											<h3 class="mx-auto">Ariel Ardinata - Independent Agent</h3>
-										</div>
-									</a>
-								</div>
-								<div class="col-sm-6 bg-abu">
-									<a href="agen-detail.html" class="nav-link item">
-										<div class="card p-3">
-											<img src="assets/img/agen/agen.png" class="mx-auto" style="width: 15%;">
-											<p class="text-center pt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-												consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-												cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-												proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-											</p>
-											<hr class="col-6 mx-auto">
-											<h3 class="mx-auto">Ariel Ardinata - Independent Agent</h3>
-										</div>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>';
 			}
 			else if ($level == '2')
 			{
@@ -488,11 +549,25 @@ else if (isset($_POST['input']))
 							        	FROM tb_property AS property
 							        	INNER JOIN tb_user AS user 
 							        	ON property.id_pemilik = user.id
-							        	WHERE id_agent = '$id'";
+							        	WHERE id_agent = '$id' AND status_property > 2";
 							        $property = mysqli_query($conn, $propertyagentsql);
 							        while ($dataproperty = mysqli_fetch_array($property)) 
 							        {
 							        	$status = $dataproperty['status_property'];
+
+							        	if ($status == '3') 
+							        	{
+							        		$status = 'Dijual';	
+							        	}
+							        	else if ($status =='4')
+							        	{
+							        		$status = 'Disewakan';
+							        	}
+							        	else if ($status == '5')
+							        	{
+							        		$status = 'Sudah Laku Terjual';
+							        	}
+
 							        $html .='
 							            <tr>
 							                <td>'.$dataproperty['judul'].'</td>
@@ -500,7 +575,7 @@ else if (isset($_POST['input']))
 							                <td>'.$dataproperty['jenis_property'].'</td>
 							                <td>'.$dataproperty['nama'].'</td>
 							                <td>Rp'.$dataproperty['harga'].'</td>
-							                <td>'.$dataproperty['status_property'].'</td>
+							                <td>'.$status.'</td>
 							                <td>';
 							                if ($status == 'Sudah Terjual') 
 							                {
@@ -618,10 +693,7 @@ else if (isset($_POST['input']))
 					</div>';
 				echo $html;
 			}
-
 		?>
-		
-		
 		<div class="container-fluid bg-abu">
 			<div class="row col-lg-12 mx-auto">
 				<div class="col-sm-6 d-flex">
@@ -634,6 +706,25 @@ else if (isset($_POST['input']))
 						<a href="#" class="nav-link item">Press </a>
 						<a href="#" class="nav-link item">Rumah Subsidi</a>
 						<a href="#" class="nav-link item">Peta Lokasi Proyek</a>
+						<?php 
+						if (isset($_SESSION['login'])) 
+						{
+							echo '';
+						}
+						else
+						{
+							echo '
+								<div class="mt-3">
+							    	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalLogin">
+									  	Login
+									</button>
+									<a class="btn btn-secondary" id="dropdownMenuButton1" aria-expanded="false" href="register.php">
+										Register
+									</a>
+								</div>
+							';
+						}
+						?>
 					</div>
 					<div class="pt-4 pb-4 p-2 flex-fill">
 						<h5><b>CUSTOMER SERVICE</b></h5>
@@ -759,8 +850,8 @@ else if (isset($_POST['input']))
 								      	<label for="inputState">Status*</label>
 								      	<select class="form-select" aria-label="Default select example" name="status">
 								        	<option selected> Pilih</option>
-								        	<option value="Dijual">Dijual</option>
-								        	<option value="Disewakan">Disewakan</option>
+								        	<option value="1">Dijual</option>
+								        	<option value="2">Disewakan</option>
 								      	</select>
 								    </div>
 									<div class="form-group p-2">
@@ -881,6 +972,14 @@ else if (isset($_POST['input']))
 		$(document).ready(function() 
 		{
     		$('#example2').DataTable();
+		});
+		$(document).ready(function() 
+		{
+    		$('#example3').DataTable();
+		});
+		$(document).ready(function() 
+		{
+    		$('#example4').DataTable();
 		});
 	</script>
 	</body>
