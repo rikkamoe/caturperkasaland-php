@@ -28,14 +28,26 @@ if (isset($_POST['login']))
     	}
   	}		
 }
+if (isset($_POST['submit'])) {
+	$name =  $_POST['nama'];
+	$massage =  $_POST['massage'];
+	$massage2 =  $_POST['massage2'];
+	$nomer =  $_POST['nomer'];
+
+	header("location:https://api.whatsapp.com/send?phone=$nomer&text=Nama:%20$name%20%0DMassage:%20$massage%20%0DPerihal:%20$massage2");
+}else{
+	echo "
+		<script>
+			windows.location=history.go(-1);
+		</script>
+	";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="Keywords" content="Cars">
-		<meta name="Description" content="Tasting the cars">
 		<title>CATUR PERKASALAND</title>
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Khula" />
 		<link href='https://fonts.googleapis.com/css?family=Kodchasan' rel='stylesheet'>
@@ -50,7 +62,7 @@ if (isset($_POST['login']))
 	<body>
 		<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white d-flex">
-		<a class="navbar-brand justify-content-start me-auto ms-4 col-3" href="index.html">
+		<a class="navbar-brand justify-content-start me-auto ms-4 col-3" href="index.php">
 			<img src="assets/img/logo.png" style="width: 20%;">
 		</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -160,18 +172,13 @@ if (isset($_POST['login']))
 						    <hr class="col-10 mx-auto">
 						    <div class="mapouter mx-auto col-12">
 						    	<div class="gmap_canvas">
-						    		<iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=400&amp;height=400&amp;hl=en&amp;q=stmik primakara&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+						    		<iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=400&amp;height=400&amp;hl=en&amp;q=<?php echo $datadetail['alamat'];?>&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
 						    		</iframe>
 						    	</div>
 							</div>
 						</div>
 						<?php
-							if (isset($_SESSION["login"])) 
-							{
-								echo '';
-							}
-							else
-							{
+
 								$id = $_GET['id'];
 								$agentsql = "
 									SELECT * FROM tb_property
@@ -186,16 +193,16 @@ if (isset($_POST['login']))
 											<h4 class="card-title text-center pt-2">Tanya Tentang Property Ini</h4>
 											<img src="assets/img/agen/agen.png" class="mx-auto pt-4 pb-4" style="width: 15%;">
 											<h5 class="card-title text-center pt-2">Agent '.$dataagent['nama'].'</h5>
-											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-phone blue"></span> '.$dataagent['no_tlp'].'</a>
-											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-whatsapp green"></span> WhatsApp Link</a>
-											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-google orange"></span> @arielardnt@gmail.com</a>
-											<a href="agen-detail.php?id='.$dataagent['id_agent'].'" class="btn btn-success col-10 mx-auto p-3 m-2">
-												<span class="fa fa-envelope"></span> Detail Agent
-											</a>
+											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-phone blue"></span>+62 '.$dataagent['no_tlp'].'</a>
+											<a href="http://wa.me/62'.$dataagent['no_tlp'].'" class="btn btn-secondary col-8 mx-auto p-2 m-2" target="_blank"><span class="fa fa-whatsapp green"></span> WhatsApp Link</a>
+											<a href="#" class="btn btn-secondary col-8 mx-auto p-2 m-2"><span class="fa fa-google orange"></span> '.$dataagent['email'].'</a>
+
+									    	<button type="button" class="btn btn-success col-10 mx-auto p-3 m-2" data-bs-toggle="modal" data-bs-target="#modalsend">
+											  	<span class="fa fa-envelope"></span> Send Enquiry 
+											</button>
 										</div>
 									</div>
 								';
-							}
 						?>
 						
 					</div>
@@ -273,7 +280,7 @@ if (isset($_POST['login']))
 					</div>
 				</div>
 
-				<span class="d-flex justify-content-center">Developed and Optimized by Agus Yudi | &copy 2021 The Bali Estate, All Rights Reserved</span>
+				<span class="d-flex justify-content-center">&copy 2021 Catur Perkasa Land, All Rights Reserved</span>
 			</div>
 		</div>
 
@@ -331,6 +338,53 @@ if (isset($_POST['login']))
 		      <div class="modal-footer p-2">
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 		        <button type="submit" class="btn btn-primary">Login</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="modalsend" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Kirim Pesan</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+		      	<?php
+					$id = $_GET['id'];
+					$namaagentsql = "
+						SELECT * FROM tb_property
+						INNER JOIN tb_user
+						ON tb_property.id_agent = tb_user.id
+						WHERE tb_property.id = '$id'";
+					$namaagent = mysqli_query($conn, $namaagentsql);
+					$dataagent = mysqli_fetch_array($namaagent);
+					$telp = $dataagent['no_tlp'];
+					$judul = $dataagent['judul'];
+					$harga = $dataagent['harga'];
+				?>
+		        <form method="post" target="_blank">
+					<div class="form-group p-2">
+					    <label for="exampleInputEmail1">Nama</label>
+					    <input type="text" class="form-control" name="nama" placeholder="Enter Nama" required>
+					</div>
+					<div class="form-group p-2">
+					    <label for="exampleInputEmail1">Massage</label>
+					    <input type="text" class="form-control" name="massage" value="hai, saya tertarik dengan iklan yg anda tawarkan (<?php echo $judul; ?>) dengan harga (<?php echo $harga; ?>)">
+					</div>
+					<div class="form-group p-2">
+					    <label for="exampleInputEmail1">Perihal lain</label>
+					    <input type="text" class="form-control" name="massage2">
+					</div>
+					<input type="text" name="nomer" value="62<?php echo $telp; ?>" hidden>
+		      <div class="modal-footer p-2">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+		        <button type="submit" class="btn btn-primary" name="submit">Kirim</button>
+		      </div>
+				</form>
 		      </div>
 		    </div>
 		  </div>

@@ -34,8 +34,6 @@ if (isset($_POST['login']))
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="Keywords" content="Cars">
-		<meta name="Description" content="Tasting the cars">
 		<title>CATUR PERKASALAND</title>
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Khula" />
 		<link href='https://fonts.googleapis.com/css?family=Kodchasan' rel='stylesheet'>
@@ -213,14 +211,14 @@ if (isset($_POST['login']))
 								$cekpropertysql = "
 									SELECT * FROM tb_property 
 									WHERE daerah = '$idlokasi' AND status_property = '$status' AND jenis_property = '$tipe' 
-									ORDER BY harga ASC LIMIT 6";	
+									ORDER BY harga ASC";	
 							}
 							else if ($harga == '2')
 							{
 								$cekpropertysql = "
 									SELECT * FROM tb_property 
 									WHERE daerah = '$idlokasi' AND status_property = '$status' AND jenis_property = '$tipe' 
-									ORDER BY harga DESC LIMIT 6";
+									ORDER BY harga DESC";
 							}
 							else
 							{
@@ -228,7 +226,7 @@ if (isset($_POST['login']))
 								$cekpropertysql = "
 									SELECT * FROM tb_property 
 									WHERE daerah = '$idlokasi' AND status_property = '3' OR status_property = '4' 
-									ORDER BY id DESC LIMIT 6";
+									ORDER BY id DESC";
 							}
 						}
 						else
@@ -236,7 +234,7 @@ if (isset($_POST['login']))
 							$cekpropertysql = "
 								SELECT * FROM tb_property 
 								WHERE daerah = '$idlokasi' AND status_property = '3'
-								ORDER BY id DESC LIMIT 6";
+								ORDER BY id DESC";
 						}
 						$property = mysqli_query($conn, $cekpropertysql);
 						while ($dataproperty = mysqli_fetch_array($property)) 
@@ -384,7 +382,7 @@ if (isset($_POST['login']))
 					<div class="mapouter"><div class="gmap_canvas"><iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=auto&amp;height=400&amp;hl=en&amp;q=stmik primakara&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe></div>
 					</div>
 				</div>
-				<span class="d-flex justify-content-center mx-auto">Developed and Optimized by Agus Yudi | &copy 2021 The Bali Estate, All Rights Reserved</span>
+				<span class="d-flex justify-content-center mx-auto">&copy 2021 Catur Perkasa Land, All Rights Reserved</span>
 		</div>
 	</div>
 

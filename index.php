@@ -81,7 +81,7 @@ else if (isset($_POST['input']))
 							INSERT INTO tb_property
 							(judul, alamat, daerah, luas_bangunan, luas_tanah, jenis_property, harga, kamar_tidur, kamar_mandi, lantai, image_sertifikat, image, fasilitas, status_property, id_pemilik, id_agent)
 							VALUES
-							('$judul', '$alamat', '$daerah', '$luas_bangunan', '$luas_tanah', '$tipe', '$harga', '$kamar_tidur', '$kamar_mandi', '$lantai', '$randomname2', '$randomname', '$fasilitas', '$status - Admin', '$nama', '$agent')";
+							('$judul', '$alamat', '$daerah', '$luas_bangunan', '$luas_tanah', '$tipe', '$harga', '$kamar_tidur', '$kamar_mandi', '$lantai', '$randomname2', '$randomname', '$fasilitas', '$status', '$nama', '$agent')";
 						$property = mysqli_query($conn, $inputsql);
 						if ($property) 
 						{
@@ -121,8 +121,6 @@ else if (isset($_POST['input']))
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="Keywords" content="Cars">
-		<meta name="Description" content="Tasting the cars">
 		<title>CATUR PERKASALAND</title>
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Khula" />
 		<link href='https://fonts.googleapis.com/css?family=Kodchasan' rel='stylesheet'>
@@ -141,7 +139,7 @@ else if (isset($_POST['input']))
 	<body>
 		<!-- Navbar -->
 		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white d-flex">
-			<a class="navbar-brand justify-content-start me-auto ms-4 col-3" href="index.html">
+			<a class="navbar-brand justify-content-start me-auto ms-4 col-3" href="index.php">
 				<img src="assets/img/logo.png" style="width: 20%;">
 			</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -255,12 +253,7 @@ else if (isset($_POST['input']))
 						<div class="row">
 							<img src="assets/img/logo.png" class="mx-auto" style="width: 30%;">
 							<h1>Selamat Datang!</h1>
-							<p class="col-8 mx-auto">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+							<h5 class="col-8 mx-auto">Kami menyediakan list terbaik property, seperti Rumah, Villa, Apartment yang statusnya di jual maupun di sewakan dipulau Bali. Dengan agen berkualitas dan pengalaman, kami siap membantu anda untuk memasarkan property anda dengan harga terbaik</h5>
 						</div>
 				   	</div>
 				</div>
@@ -293,7 +286,7 @@ else if (isset($_POST['input']))
 						<div class="container">
 							<div class="row p-2">
 								<div class="p-2 text-center">
-									<h1><b>Informasi Agent '.$namauser.'</b></h1>
+									<h1><b>Informasi Admin '.$namauser.'</b></h1>
 								</div>
 							</div>
 							<div class="d-flex align-items-start">
@@ -477,13 +470,13 @@ else if (isset($_POST['input']))
 							        {
 							        	$status = $datapropertyowner['status_property'];
 
-							        	if ($status == '1' OR $status == '2') 
+							        	if ($status == '1' || $status == '2') 
 							        	{
 							        		$status = 'Masih Tahap Antrian Validasi Admin';	
 							        	}
-							        	else if ($status =='3' OR $status == '4')
+							        	else if ($status =='3' || $status == '4')
 							        	{
-							        		$status = 'Masih Dikelola ole Agent';
+							        		$status = 'Masih Dikelola oleh Agent';
 							        	}
 							        	else if ($status == '5')
 							        	{
@@ -674,13 +667,9 @@ else if (isset($_POST['input']))
 									<a href="agen-detail.php?id='.$datauseragent['id'].'" class="nav-link item">
 										<div class="card p-3">
 											<img src="assets/img/agen/agen.png" class="mx-auto" style="width: 15%;">
-											<p class="text-center pt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-												consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-												cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-												proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-											</p>
+											<h5 class="text-center pt-3">
+											'.$datauseragent['deskripsi'].'
+											</h5>
 											<hr class="col-6 mx-auto">
 											<h3 class="mx-auto">'.$datauseragent['nama'].' - Independent Agent</h3>
 										</div>
@@ -764,7 +753,7 @@ else if (isset($_POST['input']))
 					</div>
 				</div>
 
-				<span class="d-flex justify-content-center">Developed and Optimized by Agus Yudi | &copy 2021 The Bali Estate, All Rights Reserved</span>
+				<span class="d-flex justify-content-center"> &copy 2021 Catur PerkasaLand, All Rights Reserved</span>
 			</div>
 		</div>
 			

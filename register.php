@@ -66,7 +66,7 @@ if (isset($_POST['register']))
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ASTRA MODERNLAND</title>
+  <title>CATUR PERKASALAND</title>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Khula" />
     <link href='https://fonts.googleapis.com/css?family=Kodchasan' rel='stylesheet'>
     <link rel="stylesheet" href="css/cssreset-min.css"/>
@@ -113,8 +113,8 @@ if (isset($_POST['register']))
                 <label for="inputEmail">Register as</label>
                 <select class="form-select" aria-label="Default select example" name="as">
                   <option selected>-- Select --</option>
-                  <option value="1">Owner</option>\
-                  <option value="3">Customer</option>
+                  <option value="1">Agen</option>
+                  <option value="3">Owner</option>
                 </select>
               </div>
 

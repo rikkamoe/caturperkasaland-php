@@ -6,8 +6,6 @@ include 'core/koneksi.php';
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="Keywords" content="Cars">
-		<meta name="Description" content="Tasting the cars">
 		<title>CATUR PERKASALAND</title>
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Khula" />
 		<link href='https://fonts.googleapis.com/css?family=Kodchasan' rel='stylesheet'>
@@ -22,7 +20,7 @@ include 'core/koneksi.php';
 	<body>
 		<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white d-flex">
-		<a class="navbar-brand justify-content-start me-auto ms-4 col-3" href="index.html">
+		<a class="navbar-brand justify-content-start me-auto ms-4 col-3" href="index.php">
 			<img src="assets/img/logo.png" style="width: 20%;">
 		</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,18 +92,7 @@ include 'core/koneksi.php';
 	              }
 	            else
 	            {
-	                echo '
-	                	<li class="nav-item m-4">
-					    	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalLogin">
-							  	Login
-							</button>
-					    </li>
-					    <li class="nav-item m-4">
-							<a class="btn btn-secondary" id="dropdownMenuButton1" aria-expanded="false" href="register.php">
-								Register
-							</a>
-					    </li>
-	                ';
+	                echo ' ';
 	            }
 	            ?>
 			   </ul>
@@ -146,17 +133,11 @@ include 'core/koneksi.php';
 						</div>
 					</div>
 					<div class="col-md-5 text-center pt-5">
-						<p><h1>"</h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <h1>"</h1></p>
+						<p><h1>"</h1><?php echo $dataagent['deskripsi']?><h1>"</h1></p>
 					</div>
 					<div class="col-lg-12 p-3">
 						<div class="row">
 							<h2>“ My Pleasure to Serving You “</h2>
-							<h4 class="pt-3"><span class="fa fa-twitter blue"></span> @Arikstrong_</h4>
 							<h4 class="pt-3"><span class="fa fa-phone blue"></span> <?php echo $telp; ?></h4>
 							<h4 class="pt-3"><span class="fa fa-google orange"></span> <?php echo $email; ?></h4>
 						</div>
@@ -216,7 +197,7 @@ include 'core/koneksi.php';
 					</div>
 				</div>
 
-				<span class="d-flex justify-content-center">Developed and Optimized by Agus Yudi | &copy 2021 The Bali Estate, All Rights Reserved</span>
+				<span class="d-flex justify-content-center">&copy 2021 Catur Perkasa Land, All Rights Reserved</span>
 			</div>
 		</div>
 			
